@@ -27,6 +27,7 @@
   - [Frequently used shortcuts](#frequently-used-shortcuts)
 - [`settings.json`](#settingsjson)
   - [Workspace settings](#workspace-settings)
+- [Open the repository](#open-the-repository)
 
 > [!IMPORTANT]
 > The first [keyboard shortcut](#keyboard-shortcuts) is always for `Linux`.
@@ -76,7 +77,7 @@ Run editor commands.
 
 ### Run a command using the `Command Palette`
 
-1. Open the `Command Palette`.
+1. [Open the `Command Palette`](#open-the-command-palette).
 1. Start typing a command.
 1. Select the necessary command (move the cursor via `UpArrow` and `DownArrow` on your keyboard).
 1. Press `Enter`.
