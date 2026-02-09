@@ -23,4 +23,4 @@ Add more details if necessary.
 - [ ] I edited the line `- Closes #<issue-number>`.
 - [ ] I wrote clear commit messages.
 - [ ] I reviewed my own diff before requesting review.
-- [ ] I understand the code I’m submitting (not blindly copy-pasted).
+- [ ] I understand the changes I’m submitting.
