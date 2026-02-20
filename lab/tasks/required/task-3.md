@@ -179,7 +179,7 @@ async def get_learners(
 > [!TIP]
 > Use the `items` `POST` endpoint as a reference. The learners `POST` endpoint follows the same pattern but:
 >
-> - Uses `Learner` and `LearnerCreate` instead of `Item` and `ItemCreate`.
+> - Uses `Learner` and `LearnerCreate` instead of `ItemRecord` and `ItemCreate`.
 > - Uses `create_learner` instead of `create_item`.
 > - Passes `name` and `email` instead of `title` and `description`.
 
