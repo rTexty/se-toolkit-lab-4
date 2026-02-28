@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
+
+    - name: Set up Python
+      run: uv python install 3.14.2
+
+    - name: Install dependencies
+      run: uv sync
+
+    - name: Setup environment
+      run: cp .env.docker.example .env.docker.secret
+
+    - name: Start services
+      run: docker compose --env-file .env.docker.secret up --build -d
+
+    - name: Wait for services
+      run: sleep 30
+
+    - name: Run unit tests
+      run: uv run poe test
+
+    - name: Run e2e tests
+      env:
+        API_BASE_URL: http://localhost:42001
+        API_TOKEN: my-secret-api-key
+      run: uv run poe test-e2e
+
+    - name: Login to Docker Hub
+      if: github.ref == 'refs/heads/main'
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build and push
+      if: github.ref == 'refs/heads/main'
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/se-toolkit-lab:${{ github.sha }}
