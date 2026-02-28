@@ -30,3 +30,45 @@ def test_filter_excludes_interaction_with_different_learner_id() -> None:
     interaction = _make_log(id=1, learner_id=2, item_id=1)
     result = _filter_by_item_id([interaction], 1)
     assert len(result) == 1
+
+
+# AI-generated tests
+
+def test_filter_returns_multiple_matching_interactions() -> None:
+    interactions = [_make_log(1, 1, 1), _make_log(2, 2, 1)]
+    result = _filter_by_item_id(interactions, 1)
+    assert len(result) == 2
+    assert result[0].id == 1
+    assert result[1].id == 2
+
+
+def test_filter_returns_mixed_results() -> None:
+    interactions = [
+        _make_log(1, 1, 1),
+        _make_log(2, 2, 2),
+        _make_log(3, 3, 1),
+    ]
+    result = _filter_by_item_id(interactions, 1)
+    assert len(result) == 2
+    assert result[0].id == 1
+    assert result[1].id == 3
+
+
+def test_filter_returns_empty_when_no_match() -> None:
+    interactions = [_make_log(1, 1, 2), _make_log(2, 2, 3)]
+    result = _filter_by_item_id(interactions, 1)
+    assert result == []
+
+
+def test_filter_handles_item_id_zero() -> None:
+    interactions = [_make_log(1, 1, 0), _make_log(2, 2, 1)]
+    result = _filter_by_item_id(interactions, 0)
+    assert len(result) == 1
+    assert result[0].id == 1
+
+
+# Discarded test: Duplicate of existing test
+# def test_filter_returns_single_match() -> None:
+#     interactions = [_make_log(1, 1, 1)]
+#     result = _filter_by_item_id(interactions, 1)
+#     assert len(result) == 1
