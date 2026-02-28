@@ -19,7 +19,7 @@ def verify_api_key(
     """
     if credentials.credentials != settings.api_token:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
+            status_code=status.HTTP_403_FORBIDDEN,
             detail="Invalid API key",
         )
     return credentials.credentials
