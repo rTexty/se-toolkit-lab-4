@@ -2,6 +2,7 @@
 
 from datetime import datetime
 
+from sqlalchemy import text
 from sqlmodel import Field, SQLModel
 
 # Ensure referenced FK target tables are registered in SQLModel metadata
@@ -19,7 +20,12 @@ class InteractionLog(SQLModel, table=True):
     learner_id: int = Field(foreign_key="learner.id")
     item_id: int = Field(foreign_key="item.id")
     kind: str
-    created_at: datetime | None = Field(default=None)
+    created_at: datetime = Field(
+        sa_column_kwargs={
+            "server_default": text("CURRENT_TIMESTAMP"),
+            "nullable": False,
+        }
+    )
 
 
 class InteractionLogCreate(SQLModel):
@@ -37,4 +43,4 @@ class InteractionModel(SQLModel):
     learner_id: int
     item_id: int
     kind: str
-    timestamp: datetime
+    created_at: datetime
