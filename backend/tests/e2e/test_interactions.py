@@ -10,4 +10,14 @@ def test_get_interactions_returns_200(client: httpx.Client) -> None:
 
 def test_get_interactions_response_is_a_list(client: httpx.Client) -> None:
     response = client.get("/interactions/")
-    assert isinstance(response.json(), list)
+    data = response.json()
+    assert isinstance(data, list)
+
+    if data:
+        interaction = data[0]
+        assert isinstance(interaction, dict)
+        assert "id" in interaction
+        assert "learner_id" in interaction
+        assert "item_id" in interaction
+        assert "kind" in interaction
+        assert "created_at" in interaction
